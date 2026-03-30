@@ -6,10 +6,23 @@ class TreeNode:
         self.left: Optional['TreeNode'] = None
         self.right: Optional['TreeNode'] = None
 
-# TODO: Implement the max_depth function
 def max_depth(root: Optional[TreeNode]) -> int:
-    pass
+    if not root:
+        return 0
+    
+    left_height = max_depth(root.left)
+    right_height = max_depth(root.right)
+    
+    return max(left_height, right_height) + 1
 
-# TODO: Implement the lowest_common_ancestor function
 def lowest_common_ancestor(root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-    pass
+    # BST Property: If both nodes are smaller, LCA is in the left subtree
+    if p.val < root.val and q.val < root.val:
+        return lowest_common_ancestor(root.left, p, q)
+    
+    # BST Property: If both nodes are larger, LCA is in the right subtree
+    if p.val > root.val and q.val > root.val:
+        return lowest_common_ancestor(root.right, p, q)
+    
+    # If they split (one left, one right) or one matches root, this is the LCA
+    return root
